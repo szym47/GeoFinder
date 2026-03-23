@@ -3,11 +3,25 @@ const videoPreview = document.getElementById('videoPreview');
 const takePhotoBtn = document.getElementById('takePhotoBtn');
 const photoPreview = document.getElementById('photoPreview');
 const shareBtn = document.getElementById('shareBtn');
+const shareSection = document.getElementById('share-section');
 let stream;
+
+videoPreview.style.display = 'none';
+photoPreview.style.display = 'none';
+takePhotoBtn.style.display = 'none';
 
 openCameraBtn.addEventListener('click', async () => {
     try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        const isLargeScreen = window.matchMedia('(min-width: 992px)').matches;
+        const videoConstraints = {
+            facingMode: 'environment',
+            aspectRatio: { ideal: isMobile ? 9 / 16 : 16 / 9 },
+            width: { ideal: isMobile ? 720 : (isLargeScreen ? 1920 : 1280) },
+            height: { ideal: isMobile ? 1280 : (isLargeScreen ? 1080 : 720) }
+        };
+
+        stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints });
         videoPreview.srcObject = stream;
         videoPreview.style.display = 'block';
         takePhotoBtn.style.display = 'block';
@@ -29,7 +43,8 @@ takePhotoBtn.addEventListener('click', () => {
     videoPreview.style.display = 'none';
     takePhotoBtn.style.display = 'none';
     openCameraBtn.style.display = 'block';
-    if (shareBtn) shareBtn.style.display = 'block';
+    if (shareBtn) shareBtn.style.display = 'inline-block';
+    if (shareSection) shareSection.style.display = 'flex';
     requestLocation();
 });
 
@@ -134,7 +149,7 @@ shareBtn.addEventListener('click', async () => {
 
     const shareData = { 
         title: 'Moje znalezisko GeoFinder',
-        text: `Zobacz to miejsce! Współrzędne: ${lastCoords.latitude}, ${lastCoords.longitude}\nhttps://www.google.com/maps?q=${lastCoords.latitude},${lastCoords.longitude}`
+        text: `Zobacz to miejsce! Współrzędne: ${lastCoords.latitude}, ${lastCoords.longitude}\nhttps://www.google.com/maps/search/?api=1&query=${lastCoords.latitude},${lastCoords.longitude}`
     };
 
     let file = null;
