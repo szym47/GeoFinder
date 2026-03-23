@@ -57,6 +57,13 @@ function showCoords(position) {
     const acc = position.coords.accuracy;
     lastCoords = { latitude: lat, longitude: lon, accuracy: acc };
     coordsDisplay.textContent = `Współrzędne: ${lat.toFixed(6)}, ${lon.toFixed(6)} (dokładność ~${Math.round(acc)} m)`;
+    map.setView([lat, lon], 15); 
+    if (userMarker) {
+        userMarker.setLatLng([lat, lon]);
+    } else {
+        userMarker = L.marker([lat, lon]).addTo(map)
+            .bindPopup('Oto Twoje znalezisko!').openPopup();
+    }
 }
 
 function handleGeoError(err) {
