@@ -10,7 +10,7 @@ openCameraBtn.addEventListener('click', async () => {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         videoPreview.srcObject = stream;
         videoPreview.style.display = 'block';
-        takePhotoBtn.style.display = 'inline-block';
+        takePhotoBtn.style.display = 'block';
         openCameraBtn.style.display = 'none';
     } catch (err) {
         alert('Nie udało się uzyskać dostępu do aparatu.');
@@ -28,8 +28,8 @@ takePhotoBtn.addEventListener('click', () => {
     stream.getTracks().forEach(track => track.stop());
     videoPreview.style.display = 'none';
     takePhotoBtn.style.display = 'none';
-    openCameraBtn.style.display = 'inline-block';
-    if (shareBtn) shareBtn.style.display = 'inline-block';
+    openCameraBtn.style.display = 'block';
+    if (shareBtn) shareBtn.style.display = 'block';
     requestLocation();
 });
 
