@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoFinder</title>
+    <style>
+        #photoPreview, #videoPreview, #takePhotoBtn { display: none; }
+        #photoPreview { width: 100%; max-width: 300px; margin-top: 10px; border-radius: 8px; }
+        #videoPreview { width: 100%; max-width: 300px; margin-top: 10px; border-radius: 8px; }
+    </style>
 </head>
 <body>
-
     <header>
         <h1>GeoFinder</h1>
         <p>Znajdź, zrób zdjęcie i udostępnij!</p>
     </header>
-
     <main>
         <section id="camera-section">
             <h2>Twoje znalezisko</h2>
-            </section>
-
+            <button id="openCameraBtn">Zrób zdjęcie znaleziska</button>
+            <video id="videoPreview" autoplay playsinline></video>
+            <button id="takePhotoBtn">Zrób zdjęcie</button>
+            <br>
+            <img id="photoPreview" src="" alt="Podgląd zdjęcia">
+        </section>
         <section id="map-section">
             <h2>Lokalizacja GPS</h2>
             <p id="coords-display">Współrzędne: Brak danych</p>
@@ -24,9 +31,7 @@
                 Miejsce na mapę
             </div>
         </section>
-
-        <section id="share-section">
-            </section>
+        <section id="share-section"></section>
     </main>
     <script src="app.js"></script>
 </body>
