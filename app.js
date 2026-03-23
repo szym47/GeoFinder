@@ -24,14 +24,11 @@ takePhotoBtn.addEventListener('click', () => {
     ctx.drawImage(videoPreview, 0, 0, canvas.width, canvas.height);
     photoPreview.src = canvas.toDataURL('image/png');
     photoPreview.style.display = 'block';
-    // Zatrzymaj kamerę
     stream.getTracks().forEach(track => track.stop());
     videoPreview.style.display = 'none';
     takePhotoBtn.style.display = 'none';
     openCameraBtn.style.display = 'inline-block';
-    
-    // Commit 3: Geolokalizacja (GPS) - pobierz lokalizację po zrobieniu zdjęcia
-    requestLocation();
+        requestLocation();
 });
 
 // ===== Geolocation API =====
@@ -79,6 +76,14 @@ function handleGeoError(err) {
     coordsDisplay.textContent = msg;
 }
 
-// Udostępnij lastCoords dla innych skryptów (np. mapa w kolejnych commitach)
+
 window.GeoFinder = window.GeoFinder || {};
 window.GeoFinder.getLastCoords = () => lastCoords;
+
+// ---  Mapa (Leaflet.js,OpenStreetMap) ---
+const map = L.map('map').setView([52.0693, 19.4803], 6); //środek Polski
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+let userMarker;
