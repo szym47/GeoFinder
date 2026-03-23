@@ -163,3 +163,13 @@ shareBtn.addEventListener('click', async () => {
 
 // Spróbuj pobrać lokalizację od razu po załadowaniu strony
 requestLocation();
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+            console.log('[App] Service Worker zarejestrowany:', registration);
+        })
+        .catch((err) => {
+            console.warn('[App] Błąd rejestracji Service Workera:', err);
+        });
+}
