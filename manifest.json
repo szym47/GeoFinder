@@ -1,0 +1,22 @@
+{
+  "short_name": "GeoFinder",
+  "name": "GeoFinder - Geocaching PWA",
+  "description": "Aplikacja terenowa do geocachingu",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "white",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#4CAF50"
+}
