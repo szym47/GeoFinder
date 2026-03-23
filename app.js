@@ -29,4 +29,56 @@ takePhotoBtn.addEventListener('click', () => {
     videoPreview.style.display = 'none';
     takePhotoBtn.style.display = 'none';
     openCameraBtn.style.display = 'inline-block';
+    
+    // Commit 3: Geolokalizacja (GPS) - pobierz lokalizację po zrobieniu zdjęcia
+    requestLocation();
 });
+
+// ===== Geolocation API =====
+const coordsDisplay = document.getElementById('coords-display');
+
+let lastCoords = null; // { latitude, longitude, accuracy }
+
+function requestLocation() {
+    if (!('geolocation' in navigator)) {
+        coordsDisplay.textContent = 'Współrzędne: Przeglądarka nie wspiera Geolocation API';
+        return;
+    }
+
+    const options = {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 0
+    };
+
+    navigator.geolocation.getCurrentPosition(showCoords, handleGeoError, options);
+}
+
+function showCoords(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    const acc = position.coords.accuracy;
+    lastCoords = { latitude: lat, longitude: lon, accuracy: acc };
+    coordsDisplay.textContent = `Współrzędne: ${lat.toFixed(6)}, ${lon.toFixed(6)} (dokładność ~${Math.round(acc)} m)`;
+}
+
+function handleGeoError(err) {
+    console.warn('Geolocation error', err);
+    let msg = 'Współrzędne: Błąd lokalizacji';
+    switch (err.code) {
+        case err.PERMISSION_DENIED:
+            msg = 'Współrzędne: Odmowa dostępu do lokalizacji';
+            break;
+        case err.POSITION_UNAVAILABLE:
+            msg = 'Współrzędne: Pozycja niedostępna';
+            break;
+        case err.TIMEOUT:
+            msg = 'Współrzędne: Przekroczono czas oczekiwania';
+            break;
+    }
+    coordsDisplay.textContent = msg;
+}
+
+// Udostępnij lastCoords dla innych skryptów (np. mapa w kolejnych commitach)
+window.GeoFinder = window.GeoFinder || {};
+window.GeoFinder.getLastCoords = () => lastCoords;
